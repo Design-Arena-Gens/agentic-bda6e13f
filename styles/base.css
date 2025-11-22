@@ -1,0 +1,59 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: #020617;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.6);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(129, 140, 248, 0.8);
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  padding: 0.75rem 1.25rem;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(129, 140, 248, 0.25);
+  box-shadow: 0 15px 40px rgba(76, 29, 149, 0.35);
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+.toast-success {
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.toast-error {
+  border-color: rgba(248, 113, 113, 0.35);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  background: rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}

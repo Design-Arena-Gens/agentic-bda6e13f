@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudySnaps Admin Console</title>
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="stylesheet" href="styles/base.css" />
+  </head>
+  <body class="bg-slate-950 text-slate-100 font-[Inter]">
+    <div class="min-h-screen flex">
+      <aside class="w-64 bg-slate-950 border-r border-slate-900 flex flex-col">
+        <div class="p-6 border-b border-slate-900">
+          <div class="flex items-center gap-3">
+            <img src="assets/logo.svg" class="h-10 w-10" alt="StudySnaps" />
+            <div>
+              <h1 class="text-xl font-bold">StudySnaps</h1>
+              <p class="text-xs text-slate-400 uppercase tracking-widest">Admin Control</p>
+            </div>
+          </div>
+        </div>
+        <nav class="flex-1 p-4 space-y-2 text-sm">
+          <button data-view="dashboard" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg bg-slate-900">
+            Dashboard
+          </button>
+          <button data-view="videos" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-slate-900">
+            Study Snaps
+          </button>
+          <button data-view="tournaments" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-slate-900">
+            Tournaments
+          </button>
+          <button data-view="questions" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-slate-900">
+            Question Bank
+          </button>
+          <button data-view="teams" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-slate-900">
+            Team Templates
+          </button>
+          <button data-view="security" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-slate-900">
+            Anti-cheat
+          </button>
+          <button data-view="payments" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-slate-900">
+            Payments
+          </button>
+          <button data-view="settings" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-slate-900">
+            Platform Settings
+          </button>
+        </nav>
+        <div class="p-4 border-t border-slate-900 text-xs text-slate-500 space-y-2">
+          <div id="admin-auth-status"></div>
+          <button id="admin-signout" class="w-full px-4 py-2 rounded-lg border border-slate-800 hover:bg-slate-900">
+            Sign Out
+          </button>
+          <a href="index.html" class="block text-center text-violet-400 hover:text-violet-300">Back to app</a>
+        </div>
+      </aside>
+
+      <main class="flex-1 p-8 overflow-y-auto">
+        <div class="max-w-6xl mx-auto space-y-10">
+          <header class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-3xl font-bold">Welcome, Admin</h2>
+              <p class="text-sm text-slate-400">Manage StudySnaps tournaments, content, and payments.</p>
+            </div>
+            <div class="flex gap-3">
+              <button
+                id="run-maintenance"
+                class="px-4 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 text-sm flex items-center gap-2"
+              >
+                <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span> Run health check
+              </button>
+              <button
+                id="broadcast-update"
+                class="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-sm font-semibold"
+              >
+                Broadcast update
+              </button>
+            </div>
+          </header>
+
+          <section id="view-dashboard" class="admin-view grid md:grid-cols-3 gap-6">
+            <div class="rounded-3xl border border-slate-900 bg-slate-950/80 p-6 space-y-3 shadow-lg shadow-black/30">
+              <div class="text-xs uppercase tracking-widest text-slate-400">Live Matches</div>
+              <div class="text-4xl font-bold" id="dashboard-live-matches">0</div>
+              <p class="text-slate-500 text-sm">Matches running right now.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-900 bg-slate-950/80 p-6 space-y-3 shadow-lg shadow-black/30">
+              <div class="text-xs uppercase tracking-widest text-slate-400">Active Learners</div>
+              <div class="text-4xl font-bold" id="dashboard-active-users">0</div>
+              <p class="text-slate-500 text-sm">Users logged in last 15 minutes.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-900 bg-slate-950/80 p-6 space-y-3 shadow-lg shadow-black/30">
+              <div class="text-xs uppercase tracking-widest text-slate-400">Premium Conversion</div>
+              <div class="text-4xl font-bold" id="dashboard-premium-rate">0%</div>
+              <p class="text-slate-500 text-sm">Users with active premium subscription.</p>
+            </div>
+            <div class="md:col-span-3 rounded-3xl border border-slate-900 bg-slate-950/80 p-6 shadow-lg shadow-black/30">
+              <h3 class="text-lg font-semibold mb-4">System Health</h3>
+              <div id="system-health" class="grid md:grid-cols-2 gap-4 text-sm"></div>
+            </div>
+          </section>
+
+          <section id="view-videos" class="admin-view hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-2xl font-semibold">Study Snaps Library</h3>
+                <p class="text-sm text-slate-400">Upload 60 second videos and assign metadata.</p>
+              </div>
+              <label
+                for="video-upload"
+                class="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-sm font-semibold cursor-pointer"
+              >
+                Upload Snap
+              </label>
+              <input id="video-upload" type="file" accept="video/*" class="hidden" />
+            </div>
+            <div class="grid gap-4 md:grid-cols-2" id="video-library"></div>
+          </section>
+
+          <section id="view-tournaments" class="admin-view hidden space-y-8">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-2xl font-semibold">Tournaments</h3>
+                <p class="text-sm text-slate-400">Manage Study IPL seasons, fixtures, and squads.</p>
+              </div>
+              <button
+                id="create-tournament"
+                class="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-sm font-semibold"
+              >
+                Create Tournament
+              </button>
+            </div>
+            <div class="space-y-6">
+              <div id="tournament-list" class="grid gap-4"></div>
+            </div>
+          </section>
+
+          <section id="view-questions" class="admin-view hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-2xl font-semibold">Question Bank</h3>
+                <p class="text-sm text-slate-400">
+                  Curate topic-wise MCQs and open questions synced to Study Snaps.
+                </p>
+              </div>
+              <button
+                id="add-question"
+                class="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-sm font-semibold"
+              >
+                Add Question
+              </button>
+            </div>
+            <div id="question-bank" class="space-y-4"></div>
+          </section>
+
+          <section id="view-teams" class="admin-view hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-2xl font-semibold">Team Templates</h3>
+                <p class="text-sm text-slate-400">
+                  Configure recommended 11-player templates for different skill levels.
+                </p>
+              </div>
+              <button
+                id="add-team-template"
+                class="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-sm font-semibold"
+              >
+                New Template
+              </button>
+            </div>
+            <div id="team-templates" class="grid md:grid-cols-2 gap-4"></div>
+          </section>
+
+          <section id="view-security" class="admin-view hidden space-y-6">
+            <div>
+              <h3 class="text-2xl font-semibold">Anti-cheat Dashboard</h3>
+              <p class="text-sm text-slate-400">Monitor suspicious activity in real-time.</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-4">
+              <div class="rounded-3xl border border-slate-900 bg-slate-950/80 p-6 space-y-3">
+                <h4 class="text-lg font-semibold">Live Alerts</h4>
+                <div id="cheat-alerts" class="space-y-3 text-sm"></div>
+              </div>
+              <div class="rounded-3xl border border-slate-900 bg-slate-950/80 p-6 space-y-3">
+                <h4 class="text-lg font-semibold">Focus Violations</h4>
+                <div id="focus-violations" class="space-y-3 text-sm"></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="view-payments" class="admin-view hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-2xl font-semibold">Payments & Subscriptions</h3>
+                <p class="text-sm text-slate-400">Track Razorpay subscriptions and payouts.</p>
+              </div>
+              <button
+                id="refresh-payments"
+                class="px-4 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:bg-slate-800 text-sm font-semibold"
+              >
+                Refresh
+              </button>
+            </div>
+            <div class="rounded-3xl border border-slate-900 bg-slate-950/80 p-6 space-y-4">
+              <div id="payment-stats" class="grid md:grid-cols-3 gap-4 text-sm"></div>
+              <div>
+                <h4 class="text-sm uppercase tracking-widest text-violet-300 font-semibold mb-3">Recent Transactions</h4>
+                <div id="payment-history" class="space-y-3 text-xs"></div>
+              </div>
+            </div>
+          </section>
+
+          <section id="view-settings" class="admin-view hidden space-y-6">
+            <div>
+              <h3 class="text-2xl font-semibold">Platform Settings</h3>
+              <p class="text-sm text-slate-400">Update environment configs, toggles, and roles.</p>
+            </div>
+            <div class="space-y-4 text-sm bg-slate-950/80 border border-slate-900 rounded-3xl p-6">
+              <div class="grid md:grid-cols-2 gap-4">
+                <label class="flex flex-col gap-2">
+                  <span class="text-xs uppercase tracking-widest text-slate-400">Razorpay Key ID</span>
+                  <input
+                    id="setting-razorpay-key"
+                    type="text"
+                    class="px-4 py-2 rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  />
+                </label>
+                <label class="flex flex-col gap-2">
+                  <span class="text-xs uppercase tracking-widest text-slate-400">Support Email</span>
+                  <input
+                    id="setting-support-email"
+                    type="email"
+                    class="px-4 py-2 rounded-lg bg-slate-900 border border-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  />
+                </label>
+              </div>
+              <div class="flex items-center gap-3">
+                <input id="toggle-maintenance" type="checkbox" class="h-4 w-4 rounded border-slate-700 bg-slate-900" />
+                <label for="toggle-maintenance" class="text-sm text-slate-300">Maintenance mode</label>
+              </div>
+              <div class="flex justify-end">
+                <button
+                  id="save-settings"
+                  class="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-sm font-semibold"
+                >
+                  Save Settings
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div id="toast-container" class="hidden"></div>
+    <div id="admin-toast" class="fixed bottom-6 right-6 space-y-2 z-50"></div>
+
+    <script type="module" src="scripts/admin.js"></script>
+  </body>
+</html>

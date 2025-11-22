@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudySnaps | Study IPL for High-Performance Learning</title>
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="stylesheet" href="styles/base.css" />
+  </head>
+  <body
+    class="min-h-screen bg-slate-950 text-slate-100 font-[Inter] antialiased selection:bg-violet-500 selection:text-white"
+  >
+    <div id="app" class="flex flex-col min-h-screen">
+      <header
+        class="shadow-lg shadow-violet-900/20 backdrop-blur bg-slate-950/80 border-b border-slate-800 sticky top-0 z-50"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center gap-6 flex-wrap">
+          <div class="flex items-center gap-3">
+            <img src="assets/logo.svg" alt="StudySnaps" class="h-10 w-10" />
+            <div>
+              <h1 class="text-2xl font-bold">StudySnaps</h1>
+              <p class="text-sm text-slate-400">Study IPL • Learn. Compete. Win.</p>
+            </div>
+          </div>
+          <nav class="flex-1 flex items-center justify-end gap-3 text-sm font-semibold">
+            <button
+              id="nav-tournaments"
+              class="px-4 py-2 rounded-full bg-slate-800 hover:bg-slate-700 transition"
+            >
+              Live Tournaments
+            </button>
+            <button
+              id="nav-team"
+              class="px-4 py-2 rounded-full bg-slate-800 hover:bg-slate-700 transition"
+            >
+              My Team
+            </button>
+            <button
+              id="nav-premium"
+              class="px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 transition text-white shadow shadow-violet-900/40"
+            >
+              Upgrade ₹15/mo
+            </button>
+            <div class="flex items-center gap-2">
+              <div id="auth-status" class="text-xs text-slate-400"></div>
+              <button
+                id="auth-btn"
+                class="px-4 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition"
+              >
+                Sign In
+              </button>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <main class="flex-1">
+        <section class="bg-gradient-to-br from-slate-900 via-slate-950 to-black py-12">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-[2fr_1fr] gap-10">
+              <div>
+                <div
+                  class="aspect-video bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden relative shadow-2xl shadow-violet-900/40"
+                >
+                  <video
+                    id="study-video"
+                    class="w-full h-full object-cover"
+                    controls
+                    playsinline
+                    preload="metadata"
+                  ></video>
+                  <div
+                    class="absolute top-4 left-4 bg-slate-900/80 backdrop-blur rounded-full px-4 py-1 text-xs uppercase tracking-widest text-violet-400 font-semibold"
+                  >
+                    Featured Study Snap
+                  </div>
+                  <div
+                    id="premium-badge"
+                    class="hidden absolute top-4 right-4 bg-amber-500/90 backdrop-blur rounded-full px-4 py-1 text-xs uppercase tracking-widest text-black font-black"
+                  >
+                    Premium
+                  </div>
+                  <div
+                    id="ad-overlay"
+                    class="hidden absolute bottom-0 left-0 right-0 bg-slate-900/95 border-t border-violet-900/50 p-4 space-y-2"
+                  >
+                    <p class="text-xs font-semibold text-violet-300 uppercase">Sponsored</p>
+                    <div id="ad-slot" class="text-sm text-slate-300"></div>
+                    <button
+                      id="upgrade-from-ad"
+                      class="text-xs underline text-violet-400 hover:text-violet-300 transition"
+                    >
+                      Remove ads with Premium
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-6 flex flex-wrap items-center gap-4">
+                  <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800 rounded-full px-4 py-2">
+                    <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-xs uppercase tracking-widest text-emerald-300 font-semibold"
+                      >Real-time Live Match</span
+                    >
+                  </div>
+                  <div class="flex-1">
+                    <p id="video-meta" class="text-sm text-slate-400"></p>
+                  </div>
+                  <button
+                    id="bookmark-btn"
+                    class="text-xs uppercase tracking-widest border border-slate-700 px-4 py-2 rounded-full hover:bg-slate-800 transition"
+                  >
+                    Bookmark Snap
+                  </button>
+                </div>
+              </div>
+
+              <aside
+                class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 space-y-6 shadow-xl shadow-black/40"
+              >
+                <div class="flex items-center justify-between">
+                  <h2 class="text-lg font-semibold">Live Scoreboard</h2>
+                  <div class="flex items-center gap-2 text-xs text-slate-400">
+                    <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Real-time
+                  </div>
+                </div>
+                <div id="live-scoreboard" class="space-y-4 text-sm">
+                  <p class="text-slate-500">Join a tournament to see live scores.</p>
+                </div>
+                <div class="border-t border-slate-800 pt-4 space-y-4">
+                  <h3 class="text-sm uppercase tracking-widest text-violet-300 font-semibold">
+                    Team Line-up
+                  </h3>
+                  <div class="text-xs text-slate-400">Power Index: <span id="player-power" class="text-emerald-400 font-semibold">0</span></div>
+                  <div id="team-lineup" class="grid grid-cols-2 gap-3 text-xs"></div>
+                  <button
+                    id="edit-team-btn"
+                    class="w-full py-2 rounded-full bg-slate-800 hover:bg-slate-700 transition text-sm font-semibold"
+                  >
+                    Manage Squad
+                  </button>
+                </div>
+                <div class="border-t border-slate-800 pt-4 space-y-3">
+                  <h3 class="text-sm uppercase tracking-widest text-violet-300 font-semibold">
+                    Upcoming Fixtures
+                  </h3>
+                  <div id="upcoming-fixtures" class="space-y-3 text-xs"></div>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section class="py-12 bg-slate-950 border-t border-slate-900">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+              <div class="space-y-4">
+                <h2 class="text-3xl font-bold">Stay Sharp with Question Blitz</h2>
+                <p class="text-slate-400 max-w-xl">
+                  Answer curated MCQs and open questions synced to each Study Snap. Race against the
+                  clock, collaborate with teammates, and push your accuracy under timed pressure.
+                </p>
+              </div>
+              <div
+                class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 shadow-lg shadow-black/30 space-y-6"
+              >
+                <div class="flex items-center justify-between">
+                  <h3 class="text-lg font-semibold">Active Question</h3>
+                  <span
+                    id="question-timer"
+                    class="px-4 py-1 rounded-full bg-slate-800 text-xs uppercase tracking-widest font-semibold"
+                    >00:00</span
+                  >
+                </div>
+                <div id="question-body" class="space-y-4">
+                  <p class="text-slate-500 text-sm">
+                    Join a live match to receive real-time questions synced with Study Snaps.
+                  </p>
+                </div>
+                <div class="space-y-4">
+                  <div id="question-feedback" class="text-sm text-slate-400"></div>
+                  <button
+                    id="question-submit"
+                    class="w-full py-3 rounded-full bg-violet-600 hover:bg-violet-500 transition font-semibold disabled:bg-slate-800 disabled:text-slate-500"
+                    disabled
+                  >
+                    Submit Answer
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <div
+                class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 shadow-lg shadow-black/30 space-y-6"
+              >
+                <div class="flex items-center justify-between">
+                  <h3 class="text-lg font-semibold">My Tournament Journey</h3>
+                  <button
+                    id="refresh-tournaments"
+                    class="text-xs uppercase tracking-widest text-violet-400 hover:text-violet-300"
+                  >
+                    Refresh
+                  </button>
+                </div>
+                <div id="user-tournaments" class="space-y-4 text-sm"></div>
+              </div>
+              <div
+                class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 shadow-lg shadow-black/30 space-y-6"
+              >
+                <div class="flex items-center justify-between">
+                  <h3 class="text-lg font-semibold">Live Tournaments</h3>
+                  <button
+                    id="view-leaderboard"
+                    class="text-xs uppercase tracking-widest text-violet-400 hover:text-violet-300"
+                  >
+                    Full Leaderboard
+                  </button>
+                </div>
+                <div id="live-tournaments" class="space-y-4 text-sm"></div>
+              </div>
+            </div>
+
+            <div
+              class="bg-gradient-to-r from-violet-600/20 via-violet-500/10 to-transparent border border-violet-900/40 rounded-3xl p-8 space-y-6"
+            >
+              <div class="flex flex-wrap justify-between items-center gap-6">
+                <div class="space-y-2 max-w-2xl">
+                  <h3 class="text-2xl font-bold">Go Premium. Ditch Ads. Dominate Matches.</h3>
+                  <p class="text-slate-300">
+                    Premium gives you ad-free Study Snaps, access to pro question banks, and early
+                    entry to flagship tournaments. Only ₹15 per month.
+                  </p>
+                </div>
+                <div class="flex flex-col items-end gap-2">
+                  <span class="text-xs uppercase tracking-widest text-violet-300">₹15 / month</span>
+                  <button
+                    id="start-premium"
+                    class="px-6 py-3 rounded-full bg-violet-600 hover:bg-violet-500 transition font-semibold"
+                  >
+                    Upgrade with Razorpay
+                  </button>
+                  <span id="premium-status" class="text-xs text-slate-400"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="border-t border-slate-900 bg-slate-950 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-sm text-slate-500 flex flex-wrap gap-4 justify-between">
+          <div>&copy; <span id="current-year"></span> StudySnaps. All Rights Reserved.</div>
+          <div class="flex gap-4">
+            <a href="admin.html" class="hover:text-slate-200 transition">Admin Panel</a>
+            <a href="#" id="privacy-link" class="hover:text-slate-200 transition">Privacy</a>
+            <a href="#" id="terms-link" class="hover:text-slate-200 transition">Terms</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div
+      id="team-modal"
+      class="hidden fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center px-4"
+    >
+      <div class="bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl shadow-black/40 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between p-6 border-b border-slate-900">
+          <h3 class="text-xl font-semibold">Manage Squad</h3>
+          <button id="close-team-modal" class="text-slate-400 hover:text-white transition">&times;</button>
+        </div>
+        <div class="p-6 space-y-6">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="text-sm uppercase tracking-widest text-violet-300 font-semibold mb-2">
+                Selected Players
+              </h4>
+              <div id="selected-players" class="space-y-2 text-sm"></div>
+            </div>
+            <div>
+              <h4 class="text-sm uppercase tracking-widest text-violet-300 font-semibold mb-2">
+                Available Pool
+              </h4>
+              <input
+                id="player-search"
+                type="search"
+                placeholder="Search skill, subject, or rating…"
+                class="w-full px-4 py-2 rounded-full bg-slate-900 border border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              />
+              <div id="player-pool" class="mt-3 space-y-2 text-sm max-h-72 overflow-y-auto pr-2"></div>
+            </div>
+          </div>
+          <div class="flex justify-end gap-4">
+            <button
+              id="save-team"
+              class="px-6 py-2 rounded-full bg-violet-600 hover:bg-violet-500 transition font-semibold"
+            >
+              Save Squad
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="leaderboard-modal"
+      class="hidden fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center px-4"
+    >
+      <div class="bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl shadow-black/40 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between p-6 border-b border-slate-900">
+          <h3 class="text-xl font-semibold">Tournament Leaderboard</h3>
+          <button id="close-leaderboard" class="text-slate-400 hover:text-white transition">&times;</button>
+        </div>
+        <div class="p-6 space-y-6">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="text-sm uppercase tracking-widest text-violet-300 font-semibold mb-3">
+                Top Teams
+              </h4>
+              <div id="leaderboard-teams" class="space-y-2 text-sm"></div>
+            </div>
+            <div>
+              <h4 class="text-sm uppercase tracking-widest text-violet-300 font-semibold mb-3">
+                MVPs
+              </h4>
+              <div id="leaderboard-players" class="space-y-2 text-sm"></div>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-sm uppercase tracking-widest text-violet-300 font-semibold mb-3">
+              Match Feed
+            </h4>
+            <div id="match-feed" class="space-y-3 text-xs"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast-container" class="fixed bottom-4 right-4 space-y-2 z-[100]"></div>
+
+    <script type="module" src="scripts/app.js"></script>
+  </body>
+</html>
